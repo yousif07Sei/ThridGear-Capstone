@@ -1,5 +1,5 @@
 
-package com.ga.thirdgear.security.jwt;
+package com.ga.thirdgear.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
