@@ -38,7 +38,7 @@ public class Car {
     @Column(nullable = false)
     private String model;
 
-    @NotBlank(message = "Year is required")
+    @NotNull(message = "Year is required")
     @Column(nullable = false)
     private Integer year;
 
@@ -77,10 +77,10 @@ public class Car {
     private Category category;
 
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)
     private List<CarImage> images;
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)
     private List<Inquiry> inquiries;
 
     @CreationTimestamp
