@@ -68,10 +68,10 @@ public class User {
     @Column
     private LocalDateTime deletedAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     private List<Car> cars;
 
 
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     private List<Inquiry> inquiries;
 }
