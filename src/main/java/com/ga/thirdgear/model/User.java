@@ -41,6 +41,7 @@ public class User {
     private String email;
 
     @NotBlank(message = "Password is required")
+    @JsonIgnore
     @Column(nullable = false)
     private  String password;
 
@@ -58,6 +59,7 @@ public class User {
     @Column(nullable = false)
     private boolean emailVerified = false;
 
+    @JsonIgnore
     private String resetToken;
 
     @CreationTimestamp
