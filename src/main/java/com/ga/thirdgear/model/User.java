@@ -1,5 +1,6 @@
 package com.ga.thirdgear.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ga.thirdgear.enums.UserRole;
 import com.ga.thirdgear.enums.UserStatus;
 import jakarta.persistence.*;
@@ -68,10 +69,11 @@ public class User {
     @Column
     private LocalDateTime deletedAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     private List<Car> cars;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     private List<Inquiry> inquiries;
 }
