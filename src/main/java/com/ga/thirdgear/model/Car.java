@@ -1,5 +1,6 @@
 package com.ga.thirdgear.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ga.thirdgear.enums.CarCondition;
 import com.ga.thirdgear.enums.CarStatus;
 import jakarta.persistence.*;
@@ -76,10 +77,10 @@ public class Car {
     @JoinColumn(name = "category_id")
     private Category category;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)
     private List<CarImage> images;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)
     private List<Inquiry> inquiries;
 
