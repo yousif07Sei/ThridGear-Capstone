@@ -1,6 +1,7 @@
 package com.ga.thirdgear.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.NotBlank;
@@ -34,6 +35,7 @@ public class Category {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     private List<Car> cars;
 
