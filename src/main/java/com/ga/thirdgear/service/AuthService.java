@@ -87,7 +87,7 @@ public class AuthService {
         }
 
         // Check if email is verified
-        if (!user.isEmailVerified()) {
+        if (!user.getEmailVerified()) {
             throw new RuntimeException("Please verify your email before logging in");
         }
 
