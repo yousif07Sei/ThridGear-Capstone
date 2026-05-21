@@ -1,6 +1,7 @@
 package com.ga.thirdgear.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ga.thirdgear.enums.UserRole;
 import com.ga.thirdgear.enums.UserStatus;
 import jakarta.persistence.*;
@@ -13,7 +14,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+@JsonIgnoreProperties({"cars", "inquiries", "password", "resetToken"})
 @Entity
 @Table(name = "users")
 @Getter
@@ -72,10 +73,10 @@ public class User {
     private LocalDateTime deletedAt;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     private List<Car> cars;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     private List<Inquiry> inquiries;
 }
