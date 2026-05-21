@@ -33,6 +33,12 @@ public class UserController {
         return ResponseEntity.ok(userService.getProfile(authentication.getName()));
     }
 
+    @PutMapping("/profile")
+    public ResponseEntity<User> updateProfile(@RequestBody User user, Authentication authentication) {
+        return ResponseEntity.ok(userService.updateProfile(authentication.getName(), user));
+    }
+
+
     @PutMapping("/profile/picture")
     public ResponseEntity<User> uploadProfilePicture(@RequestParam("file") MultipartFile file,
                                                      Authentication authentication) {

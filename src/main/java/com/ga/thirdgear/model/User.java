@@ -55,7 +55,7 @@ public class User {
     private String profilePicture;
 
     @Column(nullable = false)
-    private boolean emailVerified = false;
+    private Boolean emailVerified = false;
 
     private String resetToken;
 
