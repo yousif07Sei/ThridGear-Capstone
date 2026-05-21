@@ -27,7 +27,7 @@ public class InquiryController {
         return ResponseEntity.ok(inquiryService.getInquiriesByCarId(carId));
     }
 
-    @GetMapping("/my")
+    @GetMapping("/user")
     public ResponseEntity<List<Inquiry>> getMyInquiries(Authentication authentication) {
         return ResponseEntity.ok(inquiryService.getMyInquiries(authentication.getName()));
     }
