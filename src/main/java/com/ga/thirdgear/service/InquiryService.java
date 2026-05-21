@@ -8,6 +8,7 @@ import com.ga.thirdgear.model.User;
 import com.ga.thirdgear.repository.CarRepository;
 import com.ga.thirdgear.repository.InquiryRepository;
 import com.ga.thirdgear.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +72,7 @@ public class InquiryService {
         inquiry.setStatus(status);
         return inquiryRepository.save(inquiry);
     }
-
+    @Transactional
     public void deleteInquiry(Long id, String userEmail) {
         Inquiry inquiry = inquiryRepository.findById(id)
                 .orElseThrow(() -> new InformationNotFoundException("Inquiry not found with id: " + id));
@@ -83,4 +84,6 @@ public class InquiryService {
 
         inquiryRepository.delete(inquiry);
     }
+
+
 }
