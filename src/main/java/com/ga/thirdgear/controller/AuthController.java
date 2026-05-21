@@ -3,11 +3,18 @@ package com.ga.thirdgear.controller;
 import com.ga.thirdgear.dto.request.LoginRequest;
 import com.ga.thirdgear.dto.request.RegisterRequest;
 import com.ga.thirdgear.dto.response.AuthResponse;
+import com.ga.thirdgear.model.User;
 import com.ga.thirdgear.service.AuthService;
+import com.ga.thirdgear.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @RestController
@@ -15,11 +22,17 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private AuthService authService;
+    private UserService userService;
 
 
     @Autowired
     public void setAuthService(AuthService authService) {
         this.authService = authService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
 
@@ -56,4 +69,7 @@ public class AuthController {
         authService.resetPassword(token, newPassword);
         return ResponseEntity.ok("Password reset successfully!");
     }
+
+
+
 }
