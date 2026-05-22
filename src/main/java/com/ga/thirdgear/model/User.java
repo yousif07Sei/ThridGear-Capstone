@@ -73,10 +73,10 @@ public class User {
     private LocalDateTime deletedAt;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Car> cars;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "buyer", fetch = FetchType.LAZY)
     private List<Inquiry> inquiries;
 }

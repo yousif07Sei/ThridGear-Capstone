@@ -78,10 +78,10 @@ public class Car {
     private Category category;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.LAZY)
     private List<CarImage> images;
     @JsonIgnore
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "car" , fetch = FetchType.LAZY)
     private List<Inquiry> inquiries;
 
     @CreationTimestamp

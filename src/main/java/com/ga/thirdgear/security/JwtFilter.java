@@ -45,7 +45,14 @@ public class JwtFilter extends OncePerRequestFilter {
         // Extract token from Authorization header
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            email = jwtUtils.getEmailFromToken(token);
+            try {
+                email = jwtUtils.getEmailFromToken(token);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"Token expired or invalid\"}");
+                return;
+            }
         }
 
         // Validate token and set authentication in security context
