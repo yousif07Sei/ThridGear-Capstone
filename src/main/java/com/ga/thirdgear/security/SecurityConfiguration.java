@@ -1,4 +1,5 @@
 package com.ga.thirdgear.security;
+
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
@@ -48,9 +50,16 @@ public class SecurityConfiguration {
                             response.setContentType("application/json");
                             response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"Missing or invalid token\"}");
                         })
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\": \"Forbidden\", \"message\": \"You do not have permission to perform this action\"}");
+                        })
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // Public auth endpoints
                         .requestMatchers(
                                 "/auth/register",
                                 "/auth/login",
@@ -58,14 +67,24 @@ public class SecurityConfiguration {
                                 "/auth/forgot-password",
                                 "/auth/reset-password",
                                 "/uploads/**",
-                                "/api/cars",
-                                "/api/cars/**",
-                                "/api/categories",
-                                "/api/categories/**",
                                 "/error"
                         ).permitAll()
+
+                        // Cars - GET is public, everything else requires auth
+                        .requestMatchers(HttpMethod.GET, "/api/cars", "/api/cars/**").permitAll()
+
+                        // Categories - GET is public, everything else requires ADMIN
+                        .requestMatchers(HttpMethod.GET, "/api/categories", "/api/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/categories", "/api/categories/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/categories/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/categories/**").hasAuthority("ROLE_ADMIN")
+
+                        // Users - requires ADMIN
+                        .requestMatchers("/api/users/**").hasAuthority("ROLE_ADMIN")
+
                         .anyRequest().authenticated()
                 );
+
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
@@ -76,6 +95,3 @@ public class SecurityConfiguration {
         return authConfig.getAuthenticationManager();
     }
 }
-
-
-
