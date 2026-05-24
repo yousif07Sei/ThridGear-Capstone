@@ -53,6 +53,11 @@ public class InquiryService {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new InformationNotFoundException("User not found"));
 
+        // Prevent user from inquiring on their own car
+        if (car.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("You cannot send an inquiry on your own car listing");
+        }
+
         inquiry.setCar(car);
         inquiry.setBuyer(user);
         inquiry.setStatus(InquiryStatus.OPEN);
