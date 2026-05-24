@@ -1,0 +1,44 @@
+services:
+  app:
+    build: .
+    container_name: thirdgear-app
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - mailpit
+    networks:
+      - thirdgear
+
+  postgres:
+    image: postgres:16
+    container_name: thirdgear-postgres
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: thirdgear_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - thirdgear
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: thirdgear-mailpit
+    restart: always
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - thirdgear
+
+networks:
+  thirdgear:
+    driver: bridge
+
+volumes:
+  postgres_data:
